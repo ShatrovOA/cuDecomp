@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cuDecomp Fortran API &mdash; cuDecomp 2022 documentation</title>
+  <title>cuDecomp Fortran API &mdash; cuDecomp 0.4.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/style.css" type="text/css" />
@@ -16,10 +16,13 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Environment Variables" href="../env_vars.html" />
     <link rel="prev" title="cuDecomp C API" href="c_api.html" /> 
 </head>
 
@@ -30,6 +33,9 @@
         <div class="wy-side-nav-search" > 
             <a href="../index.html" class="icon icon-home"> cuDecomp
           </a>
+              <div class="version">
+                0.4.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -147,6 +153,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../env_vars.html">Environment Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../env_vars.html#cudecomp-enable-nccl-ubr">CUDECOMP_ENABLE_NCCL_UBR</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -162,9 +172,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../api.html">cuDecomp API</a> &raquo;</li>
-      <li>cuDecomp Fortran API</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">cuDecomp API</a></li>
+      <li class="breadcrumb-item active">cuDecomp Fortran API</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/f_api.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -175,14 +185,14 @@
            <div itemprop="articleBody">
              
   <section id="cudecomp-fortran-api">
-<h1>cuDecomp Fortran API<a class="headerlink" href="#cudecomp-fortran-api" title="Permalink to this headline">¶</a></h1>
+<h1>cuDecomp Fortran API<a class="headerlink" href="#cudecomp-fortran-api" title="Permalink to this heading">¶</a></h1>
 <p>These are all the types and functions available in the cuDecomp Fortran API.</p>
 <section id="types">
-<h2>Types<a class="headerlink" href="#types" title="Permalink to this headline">¶</a></h2>
+<h2>Types<a class="headerlink" href="#types" title="Permalink to this heading">¶</a></h2>
 <section id="internal-types">
-<h3>Internal types<a class="headerlink" href="#internal-types" title="Permalink to this headline">¶</a></h3>
+<h3>Internal types<a class="headerlink" href="#internal-types" title="Permalink to this heading">¶</a></h3>
 <section id="cudecomphandle">
-<span id="cudecomphandle-t-f-ref"></span><h4>cudecompHandle<a class="headerlink" href="#cudecomphandle" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomphandle-t-f-ref"></span><h4>cudecompHandle<a class="headerlink" href="#cudecomphandle" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompHandle">
 <em class="property"><span class="pre">type</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompHandle</span></span><a class="headerlink" href="#f/_/cudecompHandle" title="Permalink to this definition">¶</a></dt>
@@ -192,7 +202,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgriddesc">
-<span id="cudecompgriddesc-t-f-ref"></span><h4>cudecompGridDesc<a class="headerlink" href="#cudecompgriddesc" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgriddesc-t-f-ref"></span><h4>cudecompGridDesc<a class="headerlink" href="#cudecompgriddesc" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGridDesc">
 <em class="property"><span class="pre">type</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGridDesc</span></span><a class="headerlink" href="#f/_/cudecompGridDesc" title="Permalink to this definition">¶</a></dt>
@@ -203,9 +213,9 @@
 </section>
 <hr class="docutils" />
 <section id="grid-descriptor-configuration">
-<h3>Grid Descriptor Configuration<a class="headerlink" href="#grid-descriptor-configuration" title="Permalink to this headline">¶</a></h3>
+<h3>Grid Descriptor Configuration<a class="headerlink" href="#grid-descriptor-configuration" title="Permalink to this heading">¶</a></h3>
 <section id="cudecompgriddescconfig">
-<span id="cudecompgriddescconfig-t-f-ref"></span><h4>cudecompGridDescConfig<a class="headerlink" href="#cudecompgriddescconfig" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgriddescconfig-t-f-ref"></span><h4>cudecompGridDescConfig<a class="headerlink" href="#cudecompgriddescconfig" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGridDescConfig">
 <em class="property"><span class="pre">type</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGridDescConfig</span></span><a class="headerlink" href="#f/_/cudecompGridDescConfig" title="Permalink to this definition">¶</a></dt>
@@ -227,7 +237,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgriddescautotuneoptions">
-<span id="cudecompgriddescautotuneoptions-t-f-ref"></span><h4>cudecompGridDescAutotuneOptions<a class="headerlink" href="#cudecompgriddescautotuneoptions" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgriddescautotuneoptions-t-f-ref"></span><h4>cudecompGridDescAutotuneOptions<a class="headerlink" href="#cudecompgriddescautotuneoptions" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGridDescAutotuneOptions">
 <em class="property"><span class="pre">type</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGridDescAutotuneOptions</span></span><a class="headerlink" href="#f/_/cudecompGridDescAutotuneOptions" title="Permalink to this definition">¶</a></dt>
@@ -235,14 +245,18 @@
 <dl class="field-list simple">
 <dt class="field-odd">Type fields</dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><span class="sig-name descname">% </span><span class="sig-name descname">n_warmup_trials</span><em> [</em><em>integer</em><em>]</em> :: number of warmup trials to run for each tested configuration during autotuning</p></li>
+<li><p><span class="sig-name descname">% </span><span class="sig-name descname">n_trials</span><em> [</em><em>integer</em><em>]</em> :: number of timed trials to run for each tested configuration during autotuning</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">grid_mode</span><em> [</em><em>cudecompAutotuneGridMode</em><em>]</em> :: which communication (transpose/halo) to use to autotune process grid (default: CUDECOMP_AUTOTUNE_GRID_TRANSPOSE)</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">dtype</span><em> [</em><em>cudecompDataType</em><em>]</em> :: datatype to use during autotuning (default: CUDECOMP_DOUBLE)</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">allow_uneven_distributions</span><em> [</em><em>logical</em><em>]</em> :: flag to control whether autotuning allows process grids that result in uneven distributions of elements across processes (default: true)</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">disable_nccl_backends</span><em> [</em><em>logical</em><em>]</em> :: flag to disable NCCL backend options during autotuning (default: false)</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">disable_nvshmem_backends</span><em> [</em><em>logical</em><em>]</em> :: flag to disable NVSHMEM backend options during autotuning (default: false)</p></li>
+<li><p><span class="sig-name descname">% </span><span class="sig-name descname">skip_threshold</span><em> [</em><em>real(c_double)</em><em>]</em> :: threshold used to skip testing slow configurations; skip configuration if <code class="code docutils literal notranslate"><span class="pre">skip_threshold</span> <span class="pre">*</span> <span class="pre">t</span> <span class="pre">&gt;</span> <span class="pre">t_best</span></code>, where <code class="code docutils literal notranslate"><span class="pre">t</span></code> is the duration of the first timed trial for the configuration and <code class="code docutils literal notranslate"><span class="pre">t_best</span></code> is the average trial time of the current best configuration (default: 0.0)</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">autotune_transpose_backend</span><em> [</em><em>logical</em><em>]</em> :: flag to enable transpose backend autotuning (default: false)</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">autotune_halo_backend</span><em> [</em><em>logical</em><em>]</em> :: flag to enable halo backend autotuning (default: false)</p></li>
-<li><p><span class="sig-name descname">% </span><span class="sig-name descname">transpose_use_inplace_buffers</span><em> [</em><em>logical</em><em>]</em> :: flag to control whether transpose autotuning uses in-place or out-of-place buffers (default: false)</p></li>
+<li><p><span class="sig-name descname">% </span><span class="sig-name descname">transpose_use_inplace_buffers</span> (4)<em> [</em><em>logical</em><em>]</em> :: flag to control whether transpose autotuning uses in-place or out-of-place buffers by operation, considering the following order: X-to-Y, Y-to-Z, Z-to-Y, Y-to-X (default: [false, false, false, false])</p></li>
+<li><p><span class="sig-name descname">% </span><span class="sig-name descname">transpose_op_weights</span> (4)<em> [</em><em>real(c_double)</em><em>]</em> :: multiplicative weight to apply to trial time contribution by transpose operation in the following order: X-to-Y, Y-to-Z, Z-to-Y, Y-to-X (default: [1.0, 1.0, 1.0, 1.0])</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">halo_extents</span> (3)<em> [</em><em>integer</em><em>]</em> :: extents for halo autotuning (default: [0, 0, 0])</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">halo_periods</span> (3)<em> [</em><em>logical</em><em>]</em> :: periodicity for halo autotuning (default: [false, false, false])</p></li>
 <li><p><span class="sig-name descname">% </span><span class="sig-name descname">halo_axis</span><em> [</em><em>integer</em><em>]</em> :: which axis pencils to use for halo autotuning (default: 1, X-pencils)</p></li>
@@ -255,9 +269,9 @@
 </section>
 <hr class="docutils" />
 <section id="pencil-information">
-<h3>Pencil Information<a class="headerlink" href="#pencil-information" title="Permalink to this headline">¶</a></h3>
+<h3>Pencil Information<a class="headerlink" href="#pencil-information" title="Permalink to this heading">¶</a></h3>
 <section id="cudecomppencilinfo">
-<span id="cudecomppencilinfo-t-f-ref"></span><h4>cudecompPencilInfo<a class="headerlink" href="#cudecomppencilinfo" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomppencilinfo-t-f-ref"></span><h4>cudecompPencilInfo<a class="headerlink" href="#cudecomppencilinfo" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompPencilInfo">
 <em class="property"><span class="pre">type</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompPencilInfo</span></span><a class="headerlink" href="#f/_/cudecompPencilInfo" title="Permalink to this definition">¶</a></dt>
@@ -279,42 +293,42 @@
 </section>
 </section>
 <section id="communication-backends">
-<h3>Communication Backends<a class="headerlink" href="#communication-backends" title="Permalink to this headline">¶</a></h3>
+<h3>Communication Backends<a class="headerlink" href="#communication-backends" title="Permalink to this heading">¶</a></h3>
 <section id="cudecomptranposecommbackend">
-<span id="cudecomptransposecommbackend-t-f-ref"></span><h4>cudecompTranposeCommBackend<a class="headerlink" href="#cudecomptranposecommbackend" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomptransposecommbackend-t-f-ref"></span><h4>cudecompTranposeCommBackend<a class="headerlink" href="#cudecomptranposecommbackend" title="Permalink to this heading">¶</a></h4>
 <p>See documention for equivalent C enumerator, <a class="reference internal" href="c_api.html#cudecomptransposecommbackend-t-ref"><span class="std std-ref">cudecompTranposeCommBackend_t</span></a>.</p>
 <hr class="docutils" />
 </section>
 <section id="cudecomphalocommbackend">
-<span id="cudecomphalocommbackend-t-f-ref"></span><h4>cudecompHaloCommBackend<a class="headerlink" href="#cudecomphalocommbackend" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomphalocommbackend-t-f-ref"></span><h4>cudecompHaloCommBackend<a class="headerlink" href="#cudecomphalocommbackend" title="Permalink to this heading">¶</a></h4>
 <p>See documention for equivalent C enumerator, <a class="reference internal" href="c_api.html#cudecomphalocommbackend-t-ref"><span class="std std-ref">cudecompHaloCommBackend_t</span></a>.</p>
 </section>
 </section>
 <hr class="docutils" />
 <section id="additional-enumerators">
-<h3>Additional Enumerators<a class="headerlink" href="#additional-enumerators" title="Permalink to this headline">¶</a></h3>
+<h3>Additional Enumerators<a class="headerlink" href="#additional-enumerators" title="Permalink to this heading">¶</a></h3>
 <section id="cudecompdatatype">
-<span id="cudecompdatatype-t-f-ref"></span><h4>cudecompDataType<a class="headerlink" href="#cudecompdatatype" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompdatatype-t-f-ref"></span><h4>cudecompDataType<a class="headerlink" href="#cudecompdatatype" title="Permalink to this heading">¶</a></h4>
 <p>See documention for equivalent C enumerator, <a class="reference internal" href="c_api.html#cudecompdatatype-t-ref"><span class="std std-ref">cudecompDataType_t</span></a>.</p>
 <hr class="docutils" />
 </section>
 <section id="cudecompautotunegridmode">
-<span id="cudecompautotunegridmode-t-f-ref"></span><h4>cudecompAutotuneGridMode<a class="headerlink" href="#cudecompautotunegridmode" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompautotunegridmode-t-f-ref"></span><h4>cudecompAutotuneGridMode<a class="headerlink" href="#cudecompautotunegridmode" title="Permalink to this heading">¶</a></h4>
 <p>See documention for equivalent C enumerator, <a class="reference internal" href="c_api.html#cudecompautotunegridmode-t-ref"><span class="std std-ref">cudecompAutotuneGridMode_t</span></a>.</p>
 <hr class="docutils" />
 </section>
 <section id="cudecompresult">
-<span id="cudecompresult-t-f-ref"></span><h4>cudecompResult<a class="headerlink" href="#cudecompresult" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompresult-t-f-ref"></span><h4>cudecompResult<a class="headerlink" href="#cudecompresult" title="Permalink to this heading">¶</a></h4>
 <p>See documention for equivalent C enumerator, <a class="reference internal" href="c_api.html#cudecompresult-t-ref"><span class="std std-ref">cudecompResult_t</span></a>.</p>
 </section>
 </section>
 </section>
 <section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h2>
 <section id="library-initialization-finalization">
-<h3>Library Initialization/Finalization<a class="headerlink" href="#library-initialization-finalization" title="Permalink to this headline">¶</a></h3>
+<h3>Library Initialization/Finalization<a class="headerlink" href="#library-initialization-finalization" title="Permalink to this heading">¶</a></h3>
 <section id="cudecompinit">
-<span id="cudecompinit-f-ref"></span><h4>cudecompInit<a class="headerlink" href="#cudecompinit" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompinit-f-ref"></span><h4>cudecompInit<a class="headerlink" href="#cudecompinit" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompInit">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompInit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">mpi_comm</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompInit" title="Permalink to this definition">¶</a></dt>
@@ -335,7 +349,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompfinalize">
-<span id="cudecompfinalize-f-ref"></span><h4>cudecompFinalize<a class="headerlink" href="#cudecompfinalize" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompfinalize-f-ref"></span><h4>cudecompFinalize<a class="headerlink" href="#cudecompfinalize" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompFinalize">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompFinalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompFinalize" title="Permalink to this definition">¶</a></dt>
@@ -353,9 +367,9 @@
 </section>
 </section>
 <section id="grid-descriptor-management">
-<h3>Grid Descriptor Management<a class="headerlink" href="#grid-descriptor-management" title="Permalink to this headline">¶</a></h3>
+<h3>Grid Descriptor Management<a class="headerlink" href="#grid-descriptor-management" title="Permalink to this heading">¶</a></h3>
 <section id="cudecompgriddesccreate">
-<span id="cudecompgriddesccreate-f-ref"></span><h4>cudecompGridDescCreate<a class="headerlink" href="#cudecompgriddesccreate" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgriddesccreate-f-ref"></span><h4>cudecompGridDescCreate<a class="headerlink" href="#cudecompgriddesccreate" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGridDescCreate">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGridDescCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">config</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">options</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGridDescCreate" title="Permalink to this definition">¶</a></dt>
@@ -379,7 +393,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgriddescdestroy">
-<span id="cudecompgriddescdestroy-f-ref"></span><h4>cudecompGridDescDestroy<a class="headerlink" href="#cudecompgriddescdestroy" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgriddescdestroy-f-ref"></span><h4>cudecompGridDescDestroy<a class="headerlink" href="#cudecompgriddescdestroy" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGridDescDestroy">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGridDescDestroy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGridDescDestroy" title="Permalink to this definition">¶</a></dt>
@@ -400,7 +414,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgriddescconfigsetdefaults">
-<span id="cudecompgriddescconfigsetdefaults-f-ref"></span><h4>cudecompGridDescConfigSetDefaults<a class="headerlink" href="#cudecompgriddescconfigsetdefaults" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgriddescconfigsetdefaults-f-ref"></span><h4>cudecompGridDescConfigSetDefaults<a class="headerlink" href="#cudecompgriddescconfigsetdefaults" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGridDescConfigSetDefaults">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGridDescConfigSetDefaults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">config</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGridDescConfigSetDefaults" title="Permalink to this definition">¶</a></dt>
@@ -419,7 +433,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgriddescautotuneoptionssetdefaults">
-<span id="cudecompgriddescautotuneoptionssetdefaults-f-ref"></span><h4>cudecompGridDescAutotuneOptionsSetDefaults<a class="headerlink" href="#cudecompgriddescautotuneoptionssetdefaults" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgriddescautotuneoptionssetdefaults-f-ref"></span><h4>cudecompGridDescAutotuneOptionsSetDefaults<a class="headerlink" href="#cudecompgriddescautotuneoptionssetdefaults" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGridDescAutotuneOptionsSetDefaults">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGridDescAutotuneOptionsSetDefaults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">options</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGridDescAutotuneOptionsSetDefaults" title="Permalink to this definition">¶</a></dt>
@@ -439,9 +453,9 @@
 </section>
 <hr class="docutils" />
 <section id="workspace-management">
-<h3>Workspace Management<a class="headerlink" href="#workspace-management" title="Permalink to this headline">¶</a></h3>
+<h3>Workspace Management<a class="headerlink" href="#workspace-management" title="Permalink to this heading">¶</a></h3>
 <section id="cudecompgettransposeworkspacesize">
-<span id="cudecompgettransposeworkspacesize-f-ref"></span><h4>cudecompGetTransposeWorkspaceSize<a class="headerlink" href="#cudecompgettransposeworkspacesize" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgettransposeworkspacesize-f-ref"></span><h4>cudecompGetTransposeWorkspaceSize<a class="headerlink" href="#cudecompgettransposeworkspacesize" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGetTransposeWorkspaceSize">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGetTransposeWorkspaceSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">workspace_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGetTransposeWorkspaceSize" title="Permalink to this definition">¶</a></dt>
@@ -464,7 +478,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgethaloworkspacesize">
-<span id="cudecompgethaloworkspacesize-f-ref"></span><h4>cudecompGetHaloWorkspaceSize<a class="headerlink" href="#cudecompgethaloworkspacesize" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgethaloworkspacesize-f-ref"></span><h4>cudecompGetHaloWorkspaceSize<a class="headerlink" href="#cudecompgethaloworkspacesize" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGetHaloWorkspaceSize">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGetHaloWorkspaceSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">axis</span></em>, <em class="sig-param"><span class="pre">halo_extents</span></em>, <em class="sig-param"><span class="pre">workspace_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGetHaloWorkspaceSize" title="Permalink to this definition">¶</a></dt>
@@ -489,7 +503,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgetdatatypesize">
-<span id="cudecompgetdatatypesize-f-ref"></span><h4>cudecompGetDataTypeSize<a class="headerlink" href="#cudecompgetdatatypesize" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgetdatatypesize-f-ref"></span><h4>cudecompGetDataTypeSize<a class="headerlink" href="#cudecompgetdatatypesize" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGetDataTypeSize">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGetDataTypeSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">dtype</span></em>, <em class="sig-param"><span class="pre">dtype_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGetDataTypeSize" title="Permalink to this definition">¶</a></dt>
@@ -510,7 +524,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompmalloc">
-<span id="cudecompmalloc-f-ref"></span><h4>cudecompMalloc<a class="headerlink" href="#cudecompmalloc" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompmalloc-f-ref"></span><h4>cudecompMalloc<a class="headerlink" href="#cudecompmalloc" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompMalloc">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompMalloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">buffer</span></em>, <em class="sig-param"><span class="pre">buffer_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompMalloc" title="Permalink to this definition">¶</a></dt>
@@ -534,7 +548,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompfree">
-<span id="cudecompfree-f-ref"></span><h4>cudecompFree<a class="headerlink" href="#cudecompfree" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompfree-f-ref"></span><h4>cudecompFree<a class="headerlink" href="#cudecompfree" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompFree">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompFree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">buffer</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompFree" title="Permalink to this definition">¶</a></dt>
@@ -558,9 +572,9 @@
 </section>
 <hr class="docutils" />
 <section id="helper-functions">
-<h3>Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">¶</a></h3>
+<h3>Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this heading">¶</a></h3>
 <section id="cudecompgetpencilinfo">
-<span id="cudecompgetpencilinfo-f-ref"></span><h4>cudecompGetPencilInfo<a class="headerlink" href="#cudecompgetpencilinfo" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgetpencilinfo-f-ref"></span><h4>cudecompGetPencilInfo<a class="headerlink" href="#cudecompgetpencilinfo" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGetPencilInfo">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGetPencilInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">pencil_info</span></em>, <em class="sig-param"><span class="pre">axis</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">halo_extents</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGetPencilInfo" title="Permalink to this definition">¶</a></dt>
@@ -585,7 +599,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecomptranposecommbackendtostring">
-<span id="cudecomptransposecommbackendtostring-f-ref"></span><h4>cudecompTranposeCommBackendToString<a class="headerlink" href="#cudecomptranposecommbackendtostring" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomptransposecommbackendtostring-f-ref"></span><h4>cudecompTranposeCommBackendToString<a class="headerlink" href="#cudecomptranposecommbackendtostring" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompTransposeCommBackendToString">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompTransposeCommBackendToString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">comm_backend</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompTransposeCommBackendToString" title="Permalink to this definition">¶</a></dt>
@@ -603,7 +617,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecomphalocommbackendtostring">
-<span id="cudecomphalocommbackendtostring-f-ref"></span><h4>cudecompHaloCommBackendToString<a class="headerlink" href="#cudecomphalocommbackendtostring" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomphalocommbackendtostring-f-ref"></span><h4>cudecompHaloCommBackendToString<a class="headerlink" href="#cudecomphalocommbackendtostring" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompHaloCommBackendToString">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompHaloCommBackendToString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">comm_backend</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompHaloCommBackendToString" title="Permalink to this definition">¶</a></dt>
@@ -621,7 +635,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgetgriddescconfig">
-<span id="cudecompgetgriddescconfig-f-ref"></span><h4>cudecompGetGridDescConfig<a class="headerlink" href="#cudecompgetgriddescconfig" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgetgriddescconfig-f-ref"></span><h4>cudecompGetGridDescConfig<a class="headerlink" href="#cudecompgetgriddescconfig" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGetGridDescConfig">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGetGridDescConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">config</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGetGridDescConfig" title="Permalink to this definition">¶</a></dt>
@@ -644,7 +658,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompgetshiftedrank">
-<span id="cudecompgetshiftedrank-f-ref"></span><h4>cudecompGetShiftedRank<a class="headerlink" href="#cudecompgetshiftedrank" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompgetshiftedrank-f-ref"></span><h4>cudecompGetShiftedRank<a class="headerlink" href="#cudecompgetshiftedrank" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompGetShiftedRank">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompGetShiftedRank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">axis</span></em>, <em class="sig-param"><span class="pre">dim</span></em>, <em class="sig-param"><span class="pre">displacement</span></em>, <em class="sig-param"><span class="pre">periodic</span></em>, <em class="sig-param"><span class="pre">shifted_rank</span></em><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompGetShiftedRank" title="Permalink to this definition">¶</a></dt>
@@ -671,9 +685,9 @@
 </section>
 <hr class="docutils" />
 <section id="transposition-functions">
-<h3>Transposition Functions<a class="headerlink" href="#transposition-functions" title="Permalink to this headline">¶</a></h3>
+<h3>Transposition Functions<a class="headerlink" href="#transposition-functions" title="Permalink to this heading">¶</a></h3>
 <section id="cudecomptransposextoy">
-<span id="cudecomptransposextoy-f-ref"></span><h4>cudecompTransposeXToY<a class="headerlink" href="#cudecomptransposextoy" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomptransposextoy-f-ref"></span><h4>cudecompTransposeXToY<a class="headerlink" href="#cudecomptransposextoy" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompTransposeXToY">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompTransposeXToY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">input</span></em>, <em class="sig-param"><span class="pre">output</span></em>, <em class="sig-param"><span class="pre">work</span></em>, <em class="sig-param"><span class="pre">dtype</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">input_halo_extents</span></em>, <em class="sig-param"><span class="pre">output_halo_extents</span></em>, <em class="sig-param"><span class="pre">stream</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompTransposeXToY" title="Permalink to this definition">¶</a></dt>
@@ -702,7 +716,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecomptransposeytoz">
-<span id="cudecomptransposeytoz-f-ref"></span><h4>cudecompTransposeYtoZ<a class="headerlink" href="#cudecomptransposeytoz" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomptransposeytoz-f-ref"></span><h4>cudecompTransposeYtoZ<a class="headerlink" href="#cudecomptransposeytoz" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompTransposeYToZ">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompTransposeYToZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">input</span></em>, <em class="sig-param"><span class="pre">output</span></em>, <em class="sig-param"><span class="pre">work</span></em>, <em class="sig-param"><span class="pre">dtype</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">input_halo_extents</span></em>, <em class="sig-param"><span class="pre">output_halo_extents</span></em>, <em class="sig-param"><span class="pre">stream</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompTransposeYToZ" title="Permalink to this definition">¶</a></dt>
@@ -731,7 +745,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecomptransposeztoy">
-<span id="cudecomptransposeztoy-f-ref"></span><h4>cudecompTransposeZToY<a class="headerlink" href="#cudecomptransposeztoy" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomptransposeztoy-f-ref"></span><h4>cudecompTransposeZToY<a class="headerlink" href="#cudecomptransposeztoy" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompTransposeZToY">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompTransposeZToY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">input</span></em>, <em class="sig-param"><span class="pre">output</span></em>, <em class="sig-param"><span class="pre">work</span></em>, <em class="sig-param"><span class="pre">dtype</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">input_halo_extents</span></em>, <em class="sig-param"><span class="pre">output_halo_extents</span></em>, <em class="sig-param"><span class="pre">stream</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompTransposeZToY" title="Permalink to this definition">¶</a></dt>
@@ -760,7 +774,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecomptransposeytox">
-<span id="cudecomptransposeytox-f-ref"></span><h4>cudecompTransposeYToX<a class="headerlink" href="#cudecomptransposeytox" title="Permalink to this headline">¶</a></h4>
+<span id="cudecomptransposeytox-f-ref"></span><h4>cudecompTransposeYToX<a class="headerlink" href="#cudecomptransposeytox" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompTransposeYToX">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompTransposeYToX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">input</span></em>, <em class="sig-param"><span class="pre">output</span></em>, <em class="sig-param"><span class="pre">work</span></em>, <em class="sig-param"><span class="pre">dtype</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">input_halo_extents</span></em>, <em class="sig-param"><span class="pre">output_halo_extents</span></em>, <em class="sig-param"><span class="pre">stream</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompTransposeYToX" title="Permalink to this definition">¶</a></dt>
@@ -790,9 +804,9 @@
 </section>
 <hr class="docutils" />
 <section id="halo-exchange-functions">
-<h3>Halo Exchange Functions<a class="headerlink" href="#halo-exchange-functions" title="Permalink to this headline">¶</a></h3>
+<h3>Halo Exchange Functions<a class="headerlink" href="#halo-exchange-functions" title="Permalink to this heading">¶</a></h3>
 <section id="cudecompupdatehalosx">
-<span id="cudecompupdatehalosx-f-ref"></span><h4>cudecompUpdateHalosX<a class="headerlink" href="#cudecompupdatehalosx" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompupdatehalosx-f-ref"></span><h4>cudecompUpdateHalosX<a class="headerlink" href="#cudecompupdatehalosx" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompUpdateHalosX">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompUpdateHalosX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">input</span></em>, <em class="sig-param"><span class="pre">work</span></em>, <em class="sig-param"><span class="pre">dtype</span></em>, <em class="sig-param"><span class="pre">halo_extents</span></em>, <em class="sig-param"><span class="pre">halo_periods</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">stream</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompUpdateHalosX" title="Permalink to this definition">¶</a></dt>
@@ -820,7 +834,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompupdatehalosy">
-<span id="cudecompupdatehalosy-f-ref"></span><h4>cudecompUpdateHalosY<a class="headerlink" href="#cudecompupdatehalosy" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompupdatehalosy-f-ref"></span><h4>cudecompUpdateHalosY<a class="headerlink" href="#cudecompupdatehalosy" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompUpdateHalosY">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompUpdateHalosY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">input</span></em>, <em class="sig-param"><span class="pre">work</span></em>, <em class="sig-param"><span class="pre">dtype</span></em>, <em class="sig-param"><span class="pre">halo_extents</span></em>, <em class="sig-param"><span class="pre">halo_periods</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">stream</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompUpdateHalosY" title="Permalink to this definition">¶</a></dt>
@@ -848,7 +862,7 @@
 <hr class="docutils" />
 </section>
 <section id="cudecompupdatehalosz">
-<span id="cudecompupdatehalosz-f-ref"></span><h4>cudecompUpdateHalosZ<a class="headerlink" href="#cudecompupdatehalosz" title="Permalink to this headline">¶</a></h4>
+<span id="cudecompupdatehalosz-f-ref"></span><h4>cudecompUpdateHalosZ<a class="headerlink" href="#cudecompupdatehalosz" title="Permalink to this heading">¶</a></h4>
 <dl>
 <dt class="sig sig-object f" id="f/_/cudecompUpdateHalosZ">
 <em class="property"><span class="pre">function</span>&#160; </em><span class="sig-name descname"><span class="pre">cudecompUpdateHalosZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">handle</span></em>, <em class="sig-param"><span class="pre">grid_desc</span></em>, <em class="sig-param"><span class="pre">input</span></em>, <em class="sig-param"><span class="pre">work</span></em>, <em class="sig-param"><span class="pre">dtype</span></em>, <em class="sig-param"><span class="pre">halo_extents</span></em>, <em class="sig-param"><span class="pre">halo_periods</span></em><span class="optional">[</span>, <em class="sig-param"><span class="pre">stream</span></em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#f/_/cudecompUpdateHalosZ" title="Permalink to this definition">¶</a></dt>
@@ -883,6 +897,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="c_api.html" class="btn btn-neutral float-left" title="cuDecomp C API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../env_vars.html" class="btn btn-neutral float-right" title="Environment Variables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

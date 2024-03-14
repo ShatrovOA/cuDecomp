@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; cuDecomp 2022 documentation</title>
+  <title>Index &mdash; cuDecomp 0.4.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/style.css" type="text/css" />
@@ -15,7 +15,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/tabs.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
@@ -29,6 +31,9 @@
         <div class="wy-side-nav-search" > 
             <a href="index.html" class="icon icon-home"> cuDecomp
           </a>
+              <div class="version">
+                0.4.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -146,6 +151,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="env_vars.html">Environment Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="env_vars.html#cudecomp-enable-nccl-ubr">CUDECOMP_ENABLE_NCCL_UBR</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -161,8 +170,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Index</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -257,6 +266,14 @@
 </li>
       <li><a href="api/c_api.html#_CPPv4N33cudecompGridDescAutotuneOptions_t12halo_periodsE">cudecompGridDescAutotuneOptions_t::halo_periods (C++ member)</a>
 </li>
+      <li><a href="api/c_api.html#_CPPv4N33cudecompGridDescAutotuneOptions_t8n_trialsE">cudecompGridDescAutotuneOptions_t::n_trials (C++ member)</a>
+</li>
+      <li><a href="api/c_api.html#_CPPv4N33cudecompGridDescAutotuneOptions_t15n_warmup_trialsE">cudecompGridDescAutotuneOptions_t::n_warmup_trials (C++ member)</a>
+</li>
+      <li><a href="api/c_api.html#_CPPv4N33cudecompGridDescAutotuneOptions_t14skip_thresholdE">cudecompGridDescAutotuneOptions_t::skip_threshold (C++ member)</a>
+</li>
+      <li><a href="api/c_api.html#_CPPv4N33cudecompGridDescAutotuneOptions_t20transpose_op_weightsE">cudecompGridDescAutotuneOptions_t::transpose_op_weights (C++ member)</a>
+</li>
       <li><a href="api/c_api.html#_CPPv4N33cudecompGridDescAutotuneOptions_t29transpose_use_inplace_buffersE">cudecompGridDescAutotuneOptions_t::transpose_use_inplace_buffers (C++ member)</a>
 </li>
       <li><a href="api/c_api.html#_CPPv442cudecompGridDescAutotuneOptionsSetDefaultsP33cudecompGridDescAutotuneOptions_t">cudecompGridDescAutotuneOptionsSetDefaults (C++ function)</a>
@@ -287,12 +304,12 @@
 </li>
       <li><a href="api/f_api.html#f/_/cudecompGridDescCreate"><strong>cudecompGridDescCreate() (fortran function)</strong></a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/c_api.html#_CPPv423cudecompGridDescDestroy16cudecompHandle_t18cudecompGridDesc_t">cudecompGridDescDestroy (C++ function)</a>
 </li>
       <li><a href="api/f_api.html#f/_/cudecompGridDescDestroy"><strong>cudecompGridDescDestroy() (fortran function)</strong></a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/c_api.html#_CPPv425cudecompHaloCommBackend_t">cudecompHaloCommBackend_t (C++ enum)</a>
 </li>
       <li><a href="api/c_api.html#_CPPv4N25cudecompHaloCommBackend_t22CUDECOMP_HALO_COMM_MPIE">cudecompHaloCommBackend_t::CUDECOMP_HALO_COMM_MPI (C++ enumerator)</a>

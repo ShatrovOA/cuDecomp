@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview &mdash; cuDecomp 0.4.0 documentation</title>
+  <title>Environment Variables &mdash; cuDecomp 0.4.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/style.css" type="text/css" />
@@ -19,12 +19,10 @@
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Basic Usage Guide" href="basic_usage.html" />
-    <link rel="prev" title="cuDecomp: An Adaptive Pencil Decomposition Library for NVIDIA GPUs" href="index.html" /> 
+    <link rel="prev" title="cuDecomp Fortran API" href="api/f_api.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -76,9 +74,9 @@
   
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#what-is-cudecomp">What is cuDecomp?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#decomposition-layout">Decomposition Layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#what-is-cudecomp">What is cuDecomp?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#decomposition-layout">Decomposition Layout</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage Guide</a><ul>
@@ -154,8 +152,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="env_vars.html">Environment Variables</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="env_vars.html#cudecomp-enable-nccl-ubr">CUDECOMP_ENABLE_NCCL_UBR</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Environment Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cudecomp-enable-nccl-ubr">CUDECOMP_ENABLE_NCCL_UBR</a></li>
 </ul>
 </li>
 </ul>
@@ -174,9 +172,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Overview</li>
+      <li class="breadcrumb-item active">Environment Variables</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/env_vars.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -184,72 +182,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
-<section id="what-is-cudecomp">
-<h2>What is cuDecomp?<a class="headerlink" href="#what-is-cudecomp" title="Permalink to this heading">¶</a></h2>
-<p>cuDecomp is a library for managing 1D (slab) and 2D (pencil) parallel decompositions of
-3D Cartesian spatial domains on NVIDIA GPUs, with routines to perform global transpositions and halo communication.
-The library is inspired by the <a class="reference external" href="https://github.com/xcompact3d/2decomp-fft">2DECOMP&amp;FFT Fortran library</a> , a popular
-decomposition library for numerical simulation codes, with a similar set of available transposition routines.
-While 2DECOMP&amp;FFT and similar libraries in the past have been written to target CPU systems, this
-library is designed for GPU systems, leveraging CUDA-aware MPI and additional communication
-libraries optimized for GPUs, like the <a class="reference external" href="https://github.com/NVIDIA/nccl">NVIDIA Collective Communication Library (NCCL)</a> and
-<a class="reference external" href="https://developer.nvidia.com/nvshmem">NVIDIA OpenSHMEM Library (NVSHMEM)</a>.</p>
-<p>It is typical for modern GPU systems to have a hierarchy of connections between peer GPUs with wide-ranging bandwidths,
-from fast P2P connections through NVLINK/NVSWITCH between GPUs within a single compute node, to relatively slower
-inter-node network connections via Infiniband or Ethernet. Multi-socket nodes can also introduce cross-socket CPU connections
-where direct NVLINK connections are not available between GPUs. As a user, it can be challenging to navigate these
-various topologies and choose an appropriate decomposition of the domain to optimize network performance for their
-workload. To add to this complexity, there are numerous communication libraries available for GPUs to choose from,
-with performance characteristics for GPUs varying based on these system topologies, scale, message sizes (and for MPI,
-the particular implementation used). To address this challenge, cuDecomp has a runtime autotuning feature that can
-sweep across possible domain decompositions and several communication backends using different communication
-libraries to find the option that minimizes either the transposition or halo communication time. For applications
-that require global transpositions (e.g., FFT-based solvers, ADI solvers), the time to transpose the domain is generally
-a large bottleneck, so minimizing this time is often key to ensuring good solver performance. Using autotuning, cuDecomp can
-assist users in maintaining high computational performance across problem sizes and clusters. See the autotuning section [link]
-for more information on this feature.</p>
-</section>
-<section id="decomposition-layout">
-<h2>Decomposition Layout<a class="headerlink" href="#decomposition-layout" title="Permalink to this heading">¶</a></h2>
-<p>cuDecomp can distribute 3D Cartesian domains with dimensions <span class="math notranslate nohighlight">\([X, Y, Z]\)</span>, in column-major order, which we will call
-the <em>global grid</em>. The global grid is decomposed
-across <span class="math notranslate nohighlight">\(N_{\text{GPU}}\)</span> processes in a 2D <strong>process grid</strong> with dimensions <span class="math notranslate nohighlight">\(P_{\text{row}} \times P_{\text{col}}\)</span>. The processes
-are logically grouped by column and row index into <span class="math notranslate nohighlight">\(P_{\text{row}}\)</span> <em>row</em> communicators and <span class="math notranslate nohighlight">\(P_{\text{col}}\)</span> <em>column</em> communicators.
-For consistency with <code class="code docutils literal notranslate"><span class="pre">MPI_Cart_*</span></code> routines, the ranks are assigned in a row-major ordering (i.e. row communicators
-are composed of sequential ranks).</p>
-<p>cuDecomp will distribute the global domain data so that each process is assigned a unique <em>pencil</em> of data, with three different
-pencil configurations corresponding to different transposed configurations of the global domain. The domain can be
-decomposed into <span class="math notranslate nohighlight">\(X\)</span>-axis aligned pencils (<span class="math notranslate nohighlight">\(X\)</span>-pencils), where the <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(Z\)</span> dimensions are split across
-the process grid,
-<span class="math notranslate nohighlight">\(Y\)</span>-axis aligned pencils (<span class="math notranslate nohighlight">\(Y\)</span>-pencils), where the <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Z\)</span> dimensions are split across the process grid,
-or <span class="math notranslate nohighlight">\(Z\)</span>-axis aligned pencils
-(<span class="math notranslate nohighlight">\(Z\)</span>-pencils), where the <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> dimensions are split across the process grid. The shapes of these pencils are approximately:</p>
-<table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(X\)</span>-pencils</p></td>
-<td><p><span class="math notranslate nohighlight">\([X, \; Y/P_{\text{row}}, \; Z/P_{\text{col}}]\)</span></p></td>
-</tr>
-<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(Y\)</span>-pencils</p></td>
-<td><p><span class="math notranslate nohighlight">\([X/P_{\text{row}}, \; Y, \; Z/P_{\text{col}}]\)</span></p></td>
-</tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(Z\)</span>-pencils</p></td>
-<td><p><span class="math notranslate nohighlight">\([X/P_{\text{row}}, \; Y/P_{\text{col}}, \; Z]\)</span></p></td>
-</tr>
-</tbody>
-</table>
-<p>In the case where the global dimension is not evenly divisible by <span class="math notranslate nohighlight">\(P_{\text{row}}\)</span> or <span class="math notranslate nohighlight">\(P_{\text{col}}\)</span> in the formulas
-above, the remainder is distributed across the row or column ranks starting from the lowest indexed rank.</p>
-<p>A simple illustration of the decomposition using a <span class="math notranslate nohighlight">\(2 \times 2\)</span> process grid is shown below. From left to right, the illustration
-shows the <span class="math notranslate nohighlight">\(X\)</span>-pencil, <span class="math notranslate nohighlight">\(Y\)</span>-pencil, and <span class="math notranslate nohighlight">\(Z\)</span>-pencil configurations, with associated rank assignments.</p>
-<figure class="align-center">
-<img alt="_images/decomposition.png" src="_images/decomposition.png" />
-</figure>
+  <section id="environment-variables">
+<span id="env-var-section-ref"></span><h1>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h1>
+<p>The following section lists the environment variables available to configure the cuDecomp library.</p>
+<section id="cudecomp-enable-nccl-ubr">
+<h2>CUDECOMP_ENABLE_NCCL_UBR<a class="headerlink" href="#cudecomp-enable-nccl-ubr" title="Permalink to this heading">¶</a></h2>
+<p>(since v0.4.0, requires NCCL v2.19 or newer)</p>
+<p><code class="code docutils literal notranslate"><span class="pre">CUDECOMP_ENABLE_NCCL_UBR</span></code> controls whether cuDecomp registers its communication buffers with the NCCL library using <code class="code docutils literal notranslate"><span class="pre">ncclCommRegister</span></code>/<code class="code docutils literal notranslate"><span class="pre">ncclCommDeregister</span></code> (i.e., user buffer registration).
+Registration can improve NCCL send/receive performance in some scenarios. See the <a class="reference external" href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/bufferreg.html">User Buffer Registration</a>
+section of the NCCL documentation for more details.</p>
+<p>Default setting is off (<code class="code docutils literal notranslate"><span class="pre">0</span></code>). Setting this variable to <code class="code docutils literal notranslate"><span class="pre">1</span></code> will enable this feature.</p>
 </section>
 </section>
 
@@ -257,8 +199,7 @@ shows the <span class="math notranslate nohighlight">\(X\)</span>-pencil, <span 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="cuDecomp: An Adaptive Pencil Decomposition Library for NVIDIA GPUs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="basic_usage.html" class="btn btn-neutral float-right" title="Basic Usage Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/f_api.html" class="btn btn-neutral float-left" title="cuDecomp Fortran API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

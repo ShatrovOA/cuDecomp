@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Autotuning &mdash; cuDecomp 2022 documentation</title>
+  <title>Autotuning &mdash; cuDecomp 0.4.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/style.css" type="text/css" />
@@ -16,7 +16,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/tabs.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -33,6 +35,9 @@
         <div class="wy-side-nav-search" > 
             <a href="index.html" class="icon icon-home"> cuDecomp
           </a>
+              <div class="version">
+                0.4.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -150,6 +155,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="env_vars.html">Environment Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="env_vars.html#cudecomp-enable-nccl-ubr">CUDECOMP_ENABLE_NCCL_UBR</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -165,8 +174,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Autotuning</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Autotuning</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/autotuning.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -177,7 +186,7 @@
            <div itemprop="articleBody">
              
   <section id="autotuning">
-<span id="autotuning-section-ref"></span><h1>Autotuning<a class="headerlink" href="#autotuning" title="Permalink to this headline">¶</a></h1>
+<span id="autotuning-section-ref"></span><h1>Autotuning<a class="headerlink" href="#autotuning" title="Permalink to this heading">¶</a></h1>
 <p>One of the main features available in cuDecomp is the ability to perform
 runtime autotuning of the process grid dimensions used to partition the
 global domain and communication backends used for transpose and/or halo
@@ -186,7 +195,7 @@ best performing configuration for a given global domain size, number of tasks,
 and compute cluster topology. The autotuner aims to select decomposition and
 communication backend options that minimize transpose and halo communication time.</p>
 <section id="autotuning-process">
-<h2>Autotuning process<a class="headerlink" href="#autotuning-process" title="Permalink to this headline">¶</a></h2>
+<h2>Autotuning process<a class="headerlink" href="#autotuning-process" title="Permalink to this heading">¶</a></h2>
 <p>The autotuning process in cuDecomp can be logically split into two categories:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -210,11 +219,11 @@ fixing the process grid and autotuning the transpose and halo communication back
 <p>We will illustrate this process in the following sections.</p>
 </section>
 <section id="autotuning-usage">
-<h2>Autotuning usage<a class="headerlink" href="#autotuning-usage" title="Permalink to this headline">¶</a></h2>
+<h2>Autotuning usage<a class="headerlink" href="#autotuning-usage" title="Permalink to this heading">¶</a></h2>
 <p>In this section, we will use a modified version of the basic usage example, explaining the changes required to enable the
 autotuning feature.</p>
 <section id="creating-a-grid-descriptor-with-autotuning-enabled">
-<h3>Creating a grid descriptor with autotuning enabled<a class="headerlink" href="#creating-a-grid-descriptor-with-autotuning-enabled" title="Permalink to this headline">¶</a></h3>
+<h3>Creating a grid descriptor with autotuning enabled<a class="headerlink" href="#creating-a-grid-descriptor-with-autotuning-enabled" title="Permalink to this heading">¶</a></h3>
 <p>Enabling autotuning requires additional steps prior to the grid descriptor creation.</p>
 <p>To enable process grid autotuning, instead of setting <code class="code docutils literal notranslate"><span class="pre">pdims</span></code> entries in the configuration struct to fixed values,
 initialize them to zero. This indicates to cuDecomp that process grid autotuning is desired. Otherwise, if the <code class="code docutils literal notranslate"><span class="pre">pdims</span></code>
@@ -233,25 +242,37 @@ the autotuning process.</p>
 populated, and passed as an additional argument to <a class="reference internal" href="api/c_api.html#cudecompgriddesccreate-ref"><span class="std std-ref">cudecompGridDescCreate</span></a>.</p>
 <p>Create an uninitialized autotune option struct and initialize it to defaults using <a class="reference internal" href="api/c_api.html#cudecompgriddescautotuneoptionssetdefaults-ref"><span class="std std-ref">cudecompGridDescAutotuneOptionsSetDefaults</span></a>. Initializing this struct to default values is required to ensure no entries are left uninitialized.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-1-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">cudecompGridDescAutotuneOptions_t</span><span class="w"> </span><span class="n">options</span><span class="p">;</span><span class="w"></span>
-<span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">cudecompGridDescAutotuneOptionsSetDefaults</span><span class="p">(</span><span class="o">&amp;</span><span class="n">options</span><span class="p">));</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-1-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">cudecompGridDescAutotuneOptions_t</span><span class="w"> </span><span class="n">options</span><span class="p">;</span>
+<span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">cudecompGridDescAutotuneOptionsSetDefaults</span><span class="p">(</span><span class="o">&amp;</span><span class="n">options</span><span class="p">));</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-1-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">type</span><span class="p">(</span><span class="n">cudecompGridDescAutotuneOptions</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">options</span><span class="w"></span>
-<span class="p">...</span><span class="w"></span>
+</div><div aria-labelledby="tab-1-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">type</span><span class="p">(</span><span class="n">cudecompGridDescAutotuneOptions</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">options</span>
+<span class="p">...</span>
 
-<span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudecompGridDescAutotuneOptionsSetDefaults</span><span class="p">(</span><span class="k">options</span><span class="p">)</span><span class="w"></span>
-<span class="k">call </span><span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span><span class="w"></span>
+<span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudecompGridDescAutotuneOptionsSetDefaults</span><span class="p">(</span><span class="k">options</span><span class="p">)</span>
+<span class="k">call </span><span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></div>
 <p>First, let’s go over general autotuning options that effect process grid and communication backend autotuning.</p>
-<p>The <code class="code docutils literal notranslate"><span class="pre">dtype</span></code> entry in the options struct controls which data type cuDecomp will use for autotuning.</p>
+<p>The <code class="code docutils literal notranslate"><span class="pre">n_warmup_trials</span></code> and <code class="code docutils literal notranslate"><span class="pre">n_trials</span></code> entries in the options struct control the number of warmup
+and timed trials run for each tested configuration respectively. Here we set them to their default values.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-2-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_DOUBLE</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-2-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">n_warmup_trials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">n_trials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-2-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_DOUBLE</span><span class="w"></span>
+</div><div aria-labelledby="tab-2-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">n_warmup_trials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="k">options</span><span class="p">%</span><span class="n">n_trials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+</pre></div>
+</div>
+</div></div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">dtype</span></code> entry in the options struct controls which data type cuDecomp will use for autotuning.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-3-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-3-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_DOUBLE</span><span class="p">;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_DOUBLE</span>
 </pre></div>
 </div>
 </div></div>
@@ -259,12 +280,25 @@ populated, and passed as an additional argument to <a class="reference internal"
 the autotuner will test transpose and halo communication backends using the NCCL or NVSHMEM libraries respectively.
 By default, these flags are set to false and NCCL and NVSHMEM backends are enabled.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-3-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-3-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">disable_nccl_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
-<span class="n">options</span><span class="p">.</span><span class="n">disable_nvshmem_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-4-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-4-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">disable_nccl_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">disable_nvshmem_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-3-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">disable_nccl_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="k">options</span><span class="p">%</span><span class="n">disable_nvshmem_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
+</div><div aria-labelledby="tab-4-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">disable_nccl_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="k">options</span><span class="p">%</span><span class="n">disable_nvshmem_backends</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+</pre></div>
+</div>
+</div></div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">skip_threshold</span></code> entry allows the autotuner to rapidly skip slow performing configurations. In particular,
+the autotuner will skip testing a configuration if <code class="code docutils literal notranslate"><span class="pre">skip_threshold</span> <span class="pre">*</span> <span class="pre">t</span> <span class="pre">&gt;</span> <span class="pre">t_best</span></code>, where <code class="code docutils literal notranslate"><span class="pre">t</span></code> is the duration
+of the first timed trial for the configuration and <code class="code docutils literal notranslate"><span class="pre">t_best</span></code> is the average trial time of the current best configuration.
+By default, the threshold is set to zero which disables any skipping. More aggressive skipping can be useful in cases where exhaustive
+testing of all possible configurations is too expensive.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-5-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-5-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">skip_threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-5-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">skip_threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span>
 </pre></div>
 </div>
 </div></div>
@@ -273,10 +307,10 @@ By default, these flags are set to false and NCCL and NVSHMEM backends are enabl
 process grid dimensions (see <a class="reference internal" href="api/c_api.html#cudecompautotunegridmode-t-ref"><span class="std std-ref">cudecompAutotuneGridMode_t</span></a>). By default, transpose communication is
 used.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-4-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-4-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">grid_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_AUTOTUNE_GRID_TRANSPOSE</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-6-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-6-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-6-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">grid_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_AUTOTUNE_GRID_TRANSPOSE</span><span class="p">;</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-4-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">grid_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_AUTOTUNE_GRID_TRANSPOSE</span><span class="w"></span>
+</div><div aria-labelledby="tab-6-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-6-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">grid_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CUDECOMP_AUTOTUNE_GRID_TRANSPOSE</span>
 </pre></div>
 </div>
 </div></div>
@@ -284,10 +318,10 @@ used.</p>
 process grid dimensions that result in uneven distributions of data (i.e. grids where pencil shapes are not
 identical across ranks). By default, this flag is set to <code class="code docutils literal notranslate"><span class="pre">true</span></code> and uneven distributions are allowed.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-5-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-5-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-5-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">allow_uneven_decompositions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-7-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-7-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-7-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">allow_uneven_decompositions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-5-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-5-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">allow_uneven_decompositions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+</div><div aria-labelledby="tab-7-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-7-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">allow_uneven_decompositions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
 </pre></div>
 </div>
 </div></div>
@@ -297,15 +331,15 @@ the communication backend used for transposes. By default, this flag is <code cl
 backend is fixed to the value set within the configuration struct during the autotuning process. In
 this example, we set it to true to enable transpose backend autotuning.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-6-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-6-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-6-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-6-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">autotune_transpose_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-8-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-8-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-8-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">autotune_transpose_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-6-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-6-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">autotune_transpose_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+</div><div aria-labelledby="tab-8-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-8-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">autotune_transpose_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
 </pre></div>
 </div>
 </div></div>
-<p>The <code class="code docutils literal notranslate"><span class="pre">transpose_use_inplace_buffers</span></code> entry is a boolean flag that controls whether the transpose
-communication during autotuning is performed in-place or out-of-place. This choice can impact transpose
+<p>The <code class="code docutils literal notranslate"><span class="pre">transpose_use_inplace_buffers</span></code> entry is an array of boolean flags that controls whether the transpose
+communication during autotuning is performed in-place or out-of-place, on a per operation basis. This choice can impact transpose
 performance due to some optimized paths that skip intermediate local operations in some situations,
 depending on the input/output buffer locations.</p>
 <p>For example, <code class="code docutils literal notranslate"><span class="pre">cudecompTransposeXToY</span></code> can be a no-op if:</p>
@@ -320,13 +354,48 @@ depending on the input/output buffer locations.</p>
 contain the same data elements from the global grid. Since the transpose is in-place, the input
 is already the output buffer, and no operation is performed. In contrast, an out-of-place transpose
 would require a copy of data between the input and output buffers.</p>
-<p>In this example, we use in-place buffers so we can set this flag to <code class="code docutils literal notranslate"><span class="pre">true</span></code>. By default, this
-flag is <code class="code docutils literal notranslate"><span class="pre">false</span></code>.</p>
+<p>In this example, we use in-place buffers for all transpose operations so we can set all elements of <code class="code docutils literal notranslate"><span class="pre">transpose_use_inplace_buffers</span></code> to <code class="code docutils literal notranslate"><span class="pre">true</span></code>.
+By default, the entries are set to <code class="code docutils literal notranslate"><span class="pre">false</span></code> and out-of-place buffers are used during autotuning.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-7-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-7-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-7-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-7-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">transpose_use_inplace_buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-9-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-9-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-9-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">transpose_use_inplace_buffers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// use in-place buffers for X-to-Y transpose</span>
+<span class="n">options</span><span class="p">.</span><span class="n">transpose_use_inplace_buffers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// use in-place buffers for Y-to-Z transpose</span>
+<span class="n">options</span><span class="p">.</span><span class="n">transpose_use_inplace_buffers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// use in-place buffers for Z-to-Y transpose</span>
+<span class="n">options</span><span class="p">.</span><span class="n">transpose_use_inplace_buffers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// use in-place buffers for Y-to-X transpose</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-7-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-7-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">transpose_use_inplace_buffers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+</div><div aria-labelledby="tab-9-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-9-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">transpose_use_inplace_buffers</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"> </span><span class="c">! use in-place buffers for X-to-Y transpose</span>
+<span class="k">options</span><span class="p">%</span><span class="n">transpose_use_inplace_buffers</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"> </span><span class="c">! use in-place buffers for Y-to-Z transpose</span>
+<span class="k">options</span><span class="p">%</span><span class="n">transpose_use_inplace_buffers</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"> </span><span class="c">! use in-place buffers for Z-to-Y transpose</span>
+<span class="k">options</span><span class="p">%</span><span class="n">transpose_use_inplace_buffers</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"> </span><span class="c">! use in-place buffers for Y-to-X transpose</span>
+</pre></div>
+</div>
+</div></div>
+<p>The <code class="code docutils literal notranslate"><span class="pre">transpose_op_weights</span></code> entry is an array of floating point weights that enable adjusting the
+contribution of the different transpose operations to the trial timings used by the autotuner. By default,
+the trial timings used by the autotuner are an unweighted sum of the X-to-Y, Y-to-Z, Z-to-Y, and Y-to-X transpose timings.
+The entries in <code class="code docutils literal notranslate"><span class="pre">transpose_op_weights</span></code> are multiplicative weights that are applied to the
+contribution of each transpose operation to the total trial timing.
+This option is meant for programs that may invoke the different transpose operations an unequal
+number of times and may want the autotuner to emphasize the more frequently invoked transpose operations
+when measuring the performance of a backend and process grid configuration. For example, setting
+the weight to <code class="code docutils literal notranslate"><span class="pre">0.0</span></code> for one of the transpose operations will indicate to the autotuner that the timing
+of that operation should not contribute to the trial time sum. On a related note, the autotuner will skip running
+any transpose operation with a weight of <code class="code docutils literal notranslate"><span class="pre">0.0</span></code> for efficiency.
+In this example, we autotune using the full set of transpose
+operations, and therefore set all elements of <code class="code docutils literal notranslate"><span class="pre">transpose_op_weights</span></code> to <code class="code docutils literal notranslate"><span class="pre">1.0</span></code>.
+We should note that this is the default behavior, and thus there is no need to explicitly set
+the elements to <code class="code docutils literal notranslate"><span class="pre">1.0</span></code> generally.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-10-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-10-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-10-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-10-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">transpose_op_weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w"> </span><span class="c1">// apply 1.0 multiplier to X-to-Y transpose timings</span>
+<span class="n">options</span><span class="p">.</span><span class="n">transpose_op_weights</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w"> </span><span class="c1">// apply 1.0 multiplier to Y-to-Z transpose timings</span>
+<span class="n">options</span><span class="p">.</span><span class="n">transpose_op_weights</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w"> </span><span class="c1">// apply 1.0 multiplier to Z-to-Y transpose timings</span>
+<span class="n">options</span><span class="p">.</span><span class="n">transpose_op_weights</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w"> </span><span class="c1">// apply 1.0 multiplier to Y-to-X transpose timings</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-10-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-10-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">transpose_op_weights</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="c">! apply 1.0 multiplier to X-to-Y transpose timings</span>
+<span class="k">options</span><span class="p">%</span><span class="n">transpose_op_weights</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="c">! apply 1.0 multiplier to Y-to-Z transpose timings</span>
+<span class="k">options</span><span class="p">%</span><span class="n">transpose_op_weights</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="c">! apply 1.0 multiplier to Z-to-Y transpose timings</span>
+<span class="k">options</span><span class="p">%</span><span class="n">transpose_op_weights</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="c">! apply 1.0 multiplier to Y-to-X transpose timings</span>
 </pre></div>
 </div>
 </div></div>
@@ -336,10 +405,10 @@ the communication backend used for halo exchanges. By default, this flag is <cod
 backend is fixed to the value set within the configuration struct during the autotuning process. In
 this example, we set it to true to enable halo backend autotuning.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-8-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-8-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-8-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-8-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">autotune_halo_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-11-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-11-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-11-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-11-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">autotune_halo_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-8-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-8-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">autotune_halo_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+</div><div aria-labelledby="tab-11-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-11-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">autotune_halo_backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
 </pre></div>
 </div>
 </div></div>
@@ -348,40 +417,40 @@ See documentation on the halo communication routines, like <a class="reference i
 fields. In this example, we autotune for <span class="math notranslate nohighlight">\(X\)</span>-pencil halo exchanges with one halo element in each direction
 with periodic boundaries.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-9-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-9-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-9-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-9-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-9-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">halo_axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-12-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-12-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-12-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-12-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-12-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-12-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="p">.</span><span class="n">halo_axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 
-<span class="n">options</span><span class="p">.</span><span class="n">halo_extents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="n">options</span><span class="p">.</span><span class="n">halo_extents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="n">options</span><span class="p">.</span><span class="n">halo_extents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="n">options</span><span class="p">.</span><span class="n">halo_extents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">halo_extents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">halo_extents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 
-<span class="n">options</span><span class="p">.</span><span class="n">halo_periods</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
-<span class="n">options</span><span class="p">.</span><span class="n">halo_periods</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
-<span class="n">options</span><span class="p">.</span><span class="n">halo_periods</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="n">options</span><span class="p">.</span><span class="n">halo_periods</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">halo_periods</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="n">options</span><span class="p">.</span><span class="n">halo_periods</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-9-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-9-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">halo_axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+</div><div aria-labelledby="tab-12-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-12-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">options</span><span class="p">%</span><span class="n">halo_axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 
-<span class="k">options</span><span class="p">%</span><span class="n">halo_extents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"></span>
+<span class="k">options</span><span class="p">%</span><span class="n">halo_extents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
 
-<span class="k">options</span><span class="p">%</span><span class="n">halo_periods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[.</span><span class="n">true</span><span class="p">.,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">]</span><span class="w"></span>
+<span class="k">options</span><span class="p">%</span><span class="n">halo_periods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[.</span><span class="n">true</span><span class="p">.,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.,</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">]</span>
 </pre></div>
 </div>
 </div></div>
 <p>With the grid descriptor configuration and autotuning options structures created and populated,
 we can now create the grid descriptor with autotuning.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-10-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-10-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-10-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-10-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-10-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">cudecompGridDesc_t</span><span class="w"> </span><span class="n">grid_desc</span><span class="p">;</span><span class="w"></span>
-<span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">cudecompGridDescCreate</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">grid_desc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">options</span><span class="p">));</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-13-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-13-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-13-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-13-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-13-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-13-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">cudecompGridDesc_t</span><span class="w"> </span><span class="n">grid_desc</span><span class="p">;</span>
+<span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">cudecompGridDescCreate</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">grid_desc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">options</span><span class="p">));</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-10-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-10-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudecompGridDescCreate</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">grid_desc</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="k">options</span><span class="p">)</span><span class="w"></span>
-<span class="k">call </span><span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span><span class="w"></span>
+</div><div aria-labelledby="tab-13-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-13-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudecompGridDescCreate</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">grid_desc</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="k">options</span><span class="p">)</span>
+<span class="k">call </span><span class="n">CHECK_CUDECOMP_EXIT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></div>
 </section>
 <section id="autotuner-output-and-querying-results">
-<h3>Autotuner output and querying results<a class="headerlink" href="#autotuner-output-and-querying-results" title="Permalink to this headline">¶</a></h3>
+<h3>Autotuner output and querying results<a class="headerlink" href="#autotuner-output-and-querying-results" title="Permalink to this heading">¶</a></h3>
 <p>When autotuning is enabled, cuDecomp will produce additional output to stdout to report
 on the autotuning process, providing trial timings and similar information on the
 tested configurations.</p>
@@ -490,22 +559,22 @@ to <code class="code docutils literal notranslate"><span class="pre">cudecompGri
 to autotuned fields (<code class="code docutils literal notranslate"><span class="pre">pdims</span></code>, <code class="code docutils literal notranslate"><span class="pre">transpose_comm_backend</span></code>, and <code class="code docutils literal notranslate"><span class="pre">halo_comm_backend</span></code>) are updated to reflect the autotuning
 selections. Thus, one can also run the following code like the following to inspect and report the final configuration used:</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-11-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-11-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-11-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-11-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-11-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;running on %d x %d process grid...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">pdims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">pdims</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
-<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;running using %s transpose backend...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="n">cudecompTransposeCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">transpose_comm_backend</span><span class="p">));</span><span class="w"></span>
-<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;running using %s halo backend...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">         </span><span class="n">cudecompHaloCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">halo_comm_backend</span><span class="p">));</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-14-Qysr" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-14-Qysr" name="Qysr" role="tab" tabindex="0">C++</button><button aria-controls="panel-14-Rm9ydHJhbg==" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-14-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tab" tabindex="-1">Fortran</button></div><div aria-labelledby="tab-14-Qysr" class="sphinx-tabs-panel code-tab group-tab" id="panel-14-Qysr" name="Qysr" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;running on %d x %d process grid...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">pdims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">pdims</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;running using %s transpose backend...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="n">cudecompTransposeCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">transpose_comm_backend</span><span class="p">));</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;running using %s halo backend...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="n">cudecompHaloCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">halo_comm_backend</span><span class="p">));</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-11-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-11-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">  write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39;running on &#39;, i0, &#39; x &#39;, i0, &#39; process grid ...&#39;)&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">pdims</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">pdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39;running using &#39;, a, &#39; transpose backend ...&#39;)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">cudecompTransposeCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">transpose_comm_backend</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39;running using &#39;, a, &#39; halo backend ...&#39;)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">            </span><span class="n">cudecompHaloCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">halo_comm_backend</span><span class="p">)</span><span class="w"></span>
-<span class="k">endif</span><span class="w"></span>
+</div><div aria-labelledby="tab-14-Rm9ydHJhbg==" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-14-Rm9ydHJhbg==" name="Rm9ydHJhbg==" role="tabpanel" tabindex="0"><div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">  write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39;running on &#39;, i0, &#39; x &#39;, i0, &#39; process grid ...&#39;)&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">pdims</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">config</span><span class="p">%</span><span class="n">pdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">  </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39;running using &#39;, a, &#39; transpose backend ...&#39;)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">cudecompTransposeCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">transpose_comm_backend</span><span class="p">)</span>
+<span class="w">  </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;(&#39;running using &#39;, a, &#39; halo backend ...&#39;)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="n">cudecompHaloCommBackendToString</span><span class="p">(</span><span class="n">config</span><span class="p">%</span><span class="n">halo_comm_backend</span><span class="p">)</span>
+<span class="k">endif</span>
 </pre></div>
 </div>
 </div></div>
